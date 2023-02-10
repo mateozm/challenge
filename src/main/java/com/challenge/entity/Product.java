@@ -9,7 +9,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 
 @Getter
@@ -25,7 +27,7 @@ public class Product {
     @Column(name = "name")
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "idCategory", referencedColumnName = "idCategory", insertable = false, updatable = false)
+    @ManyToOne()
+    @JoinColumn(name = "idCategory")
     private Category category;
 }

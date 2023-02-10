@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Getter
 @Setter
@@ -21,8 +22,8 @@ public class Keyword {
     @Column(name = "idKeyword")
     private Long idKeyword;
 
-    @ManyToOne
-    @JoinColumn(name = "idCategory", referencedColumnName = "idCategory", insertable = false, updatable = false)
+    @ManyToOne()
+    @JoinColumn(name = "idCategory")
     private Category category;
 
     @Column(name = "keyword")
