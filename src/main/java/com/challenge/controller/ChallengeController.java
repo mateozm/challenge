@@ -1,5 +1,6 @@
 package com.challenge.controller;
 
+import com.challenge.dto.KeywordDTO;
 import com.challenge.entity.Keyword;
 import com.challenge.entity.Product;
 import com.challenge.service.BusinessService;
@@ -20,9 +21,9 @@ public class ChallengeController {
         this.businessService = businessService;
     }
 
-    /*Just to test if code compile*/
+
     @RequestMapping(value ="/findKeywordByCategoryName/{name}", method = RequestMethod.GET)
-    public List<Keyword> findAll(@PathVariable String  name){
+    public List<KeywordDTO> findKeywordByCategoryName(@PathVariable String  name){
 
         return businessService.findByCategoryName(name);
     }

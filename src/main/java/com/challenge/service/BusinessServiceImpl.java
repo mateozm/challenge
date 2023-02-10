@@ -1,11 +1,14 @@
 package com.challenge.service;
 
+import com.challenge.dto.KeywordDTO;
 import com.challenge.entity.Category;
 import com.challenge.entity.Keyword;
 import com.challenge.repository.CategoryRepository;
 import com.challenge.repository.KeywordRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,14 +19,16 @@ public class BusinessServiceImpl implements BusinessService{
 
     private final CategoryRepository categoryRepository;
 
-    public BusinessServiceImpl(KeywordRepository keywordRepository, CategoryRepository categoryRepository){
+    private final ModelMapper modelMapper;
+
+    public BusinessServiceImpl(KeywordRepository keywordRepository, CategoryRepository categoryRepository, ModelMapper modelMapper) {
         this.keywordRepository = keywordRepository;
         this.categoryRepository = categoryRepository;
+        this.modelMapper = modelMapper;
     }
 
-    //TODO return DTO not entity
     @Override
-    public List<Keyword> findByCategoryName(String name) {
+    public List<KeywordDTO> findByCategoryName(String name) {
 
         List<Keyword> keywords = keywordRepository.findByCategoryName(name);
 
@@ -35,8 +40,7 @@ public class BusinessServiceImpl implements BusinessService{
             keywords = keywordRepository.findByIdCategory(categoryOptional1.get().getIdCategory());
         }
 
-        return keywords;
-
+        return Arrays.asList(modelMapper.map(keywords, KeywordDTO[].class));
     }
 
     public Integer findLevelCategory(String name){
