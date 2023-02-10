@@ -1,27 +1,26 @@
 package com.challenge.entity;
 
-
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 
 @Getter
 @Setter
-@ToString
+//@ToString
 @Entity
 public class Category implements Serializable {
 
@@ -32,13 +31,21 @@ public class Category implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "idSubcategory")
-    private Long idSubCategory;
+    @JsonBackReference
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="parentCategory")
+    private Category parentCategory;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Product> product;
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "parentCategory")
+    private Collection<Category> children;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Keyword> keyword;
+    private List<Product> products;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Keyword> keywords;
 
 }
